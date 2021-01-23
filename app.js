@@ -7,6 +7,14 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+/**
+ * 
+ * import connection for Mongodb
+ * 
+ */
+
+import models, { connectDb } from './models';
+
 var app = express();
 
 // view engine setup
