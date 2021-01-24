@@ -38,7 +38,7 @@ exports.create = async function (req, res, next) {
 
 exports.get = async function (req, res, next) {
     try {
-        const posts = await db.models.PostModel.findOne({ user: req.user._id }).exec();
+        const posts = await db.models.PostModel.find({ user: req.user._id }).exec();
         console.log('posts', posts);
         return res.status(200).json({
             posts: posts,
