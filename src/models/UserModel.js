@@ -26,6 +26,26 @@ const userSchema = new mongoose.Schema(
 );
 
 
+/** Authenticate the user based on email and password */
+
+userSchema.statics.authenticate = async function (email, password) {
+  var UserModel = this;
+  try {
+      let user = await UserModel.findOne({ email: email }).exec();
+      if (!user)
+          return null;
+      let isPasswordMatch = bcrypt.compare(password, user.password);
+      if (isPasswordMatch) {
+          return user;
+      } else {
+          return null;
+      }
+  } catch (error) {
+      throw error;
+  }
+}
+
+
 //hashing a password before saving it to the database
 userSchema.pre('save', function (next) {
   var user = this;

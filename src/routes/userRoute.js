@@ -6,6 +6,9 @@ var userValidators = require('../validators/user_validators');
 
 /* GET home page. */
 // router.get('/', userController.index);
-router.post('/create', userValidators.register, userController.create);
+router.post('/register', userValidators.register, userController.create);
+
+/** For login */
+router.post('/login', userValidators.login, userController.authenticateUser);
 
 module.exports = router;
