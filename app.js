@@ -4,9 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
 var usersRouter = require('./src/routes/userRoute');
+var postRouter = require('./src/routes/postRoute');
+
+
+/** Middle ware route */
+var user_auth_middleware = require('./src/middlewares/authMiddleware');
 
 require('dotenv').config()
 
@@ -24,6 +27,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+// authenticate user route
+app.use(user_auth_middleware.userAuthMiddleWare);
+// app.use(user_auth_middleware.allowIfLoggedIn);
+app.use('/posts', postRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
