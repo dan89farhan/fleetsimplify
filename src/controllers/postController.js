@@ -97,7 +97,7 @@ exports.likePost = async function (req, res, next) {
         const whereQuery = { post: req.params.id, user: req.user._id };
         let likePost = await db.models.LikePostModel.findOne(whereQuery).exec();
         if (likePost) {
-            likePost = await db.models.LikePostModel.findByIdAndDelete({_id: likePostModel._id}).exec();
+            likePost = await db.models.LikePostModel.findByIdAndDelete({_id: likePost._id}).exec();
             return res.status(200).json({
                 likePost: likePost,
             });

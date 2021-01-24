@@ -7,6 +7,7 @@ var logger = require('morgan');
 var usersRouter = require('./src/routes/userRoute');
 var postRouter = require('./src/routes/postRoute');
 var followerRouter = require('./src/routes/followerRoute');
+var commentRouter = require('./src/routes/commentRoute');
 
 
 /** Middle ware route */
@@ -34,6 +35,7 @@ app.use(user_auth_middleware.userAuthMiddleWare);
 // app.use(user_auth_middleware.allowIfLoggedIn);
 app.use('/posts', postRouter);
 app.use('/followers', followerRouter);
+app.use('/comments', commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
