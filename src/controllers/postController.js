@@ -38,10 +38,10 @@ exports.create = async function (req, res, next) {
 
 exports.get = async function (req, res, next) {
     try {
-        const post = await db.models.PostModel.findOne({ _id: req.params.id, user: req.user._id }).exec();
-        console.log('post', post);
+        const posts = await db.models.PostModel.findOne({ user: req.user._id }).exec();
+        console.log('posts', posts);
         return res.status(200).json({
-            post: post,
+            posts: posts,
         });
     } catch (error) {
         return res.status(200).json({
@@ -80,4 +80,43 @@ exports.delete = async function (req, res, next) {
     }
 }
 
+exports.likePost = async function (req, res, next) {
+
+    const user = req.user;
+
+    const postId = req.params.id;
+
+    var likePostData = {
+        user: user._id,
+        post: postId,
+    };
+
+
+    try {
+
+        const whereQuery = { post: req.params.id, user: req.user._id };
+        let likePost = await db.models.LikePostModel.findOne(whereQuery).exec();
+        if (likePost) {
+            likePost = await db.models.LikePostModel.findByIdAndDelete({_id: likePostModel._id}).exec();
+            return res.status(200).json({
+                likePost: likePost,
+            });
+        } else {
+            var likeModel = db.models.LikePostModel;
+            var newLikePost = new likeModel(likePostData);
+            const likePost = await newLikePost.save();
+            return res.status(200).json({ likePost: likePost });
+        }
+
+    } catch (error) {
+        console.log('error ', error);
+        return res.status(403).json(
+            {
+                error: error,
+                'message': 'Error Occurred'
+            }
+        );
+    }
+
+}
 
